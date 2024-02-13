@@ -10,7 +10,6 @@ type Tbl_user struct {
 	Nama     string
 	Password string
 	Alamat   string
-	UserID   int `gorm:"column:UserID"`
 }
 
 func (u *Tbl_user) GantiPassword(connection *gorm.DB, newPassword string) (bool, error) {
@@ -37,7 +36,6 @@ func Login(connection *gorm.DB, hp string, password string) (Tbl_user, error) {
 	if err != nil {
 		return Tbl_user{}, err
 	}
-
 	return result, nil
 }
 
@@ -58,7 +56,7 @@ func TambahUsers(connection *gorm.DB, tambah Tbl_user) (bool, error) {
 
 func LihatUsers(connection *gorm.DB, userID uint) ([]Tbl_user, error) {
 	var daftarBarang []Tbl_user
-	if err := connection.Where("UserID = ?", userID).Find(&daftarBarang).Error; err != nil {
+	if err := connection.Where("ID = ?", userID).Find(&daftarBarang).Error; err != nil {
 		return nil, err
 	}
 	return daftarBarang, nil

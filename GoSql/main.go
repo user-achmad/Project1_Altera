@@ -58,8 +58,6 @@ func main() {
 								fmt.Scanln(&newUser.Password)
 								fmt.Print("Masukkan alamat : ")
 								fmt.Scanln(&newUser.Alamat)
-								fmt.Print("Masukan User id : ")
-								fmt.Scanln(&newUser.UserID)
 
 								success, err := users.TambahUsers(database, newUser)
 								if err != nil {
@@ -161,8 +159,6 @@ func main() {
 			fmt.Scanln(&newUser.Password)
 			fmt.Print("Masukkan alamat : ")
 			fmt.Scanln(&newUser.Alamat)
-			fmt.Print("Masukan User id : ")
-			fmt.Scanln(&newUser.UserID)
 			success, err := users.Register(database, newUser)
 			if err != nil {
 				fmt.Println("terjadi kesalahan(tidak bisa mendaftarkan pengguna)", err.Error())
