@@ -36,12 +36,18 @@ func main() {
 					if loggedIn != (users.Tbl_user{}) {
 						//  login berhasil
 						var menuInput int
-						for menuInput <= 5 {
+						for menuInput <= 10 {
 							fmt.Println("Pilih menu:")
+							fmt.Printf("Saldo anda : %.2f\n", loggedIn.Balance)
 							fmt.Println("1. Tambah User")
 							fmt.Println("2. Lihat User")
 							fmt.Println("3. Edit User")
-							fmt.Println("5. Cari User")
+							fmt.Println("4. Hapus User")
+							fmt.Println("5. TopUp Saldo")
+							fmt.Println("6. Transfer")
+							fmt.Println("7. History Transfer")
+							fmt.Println("8. History TopUp")
+							fmt.Println("9. Cari User")
 							fmt.Println("99. Keluar")
 							fmt.Print("Masukkan pilihan: ")
 							fmt.Scanln(&menuInput)
@@ -111,8 +117,29 @@ func main() {
 									fmt.Println("Tidak ada perubahan pada user")
 								}
 							case 4:
-
 							case 5:
+								fmt.Print("Masukan jumlah TopUp : ")
+								var jumlahTopUp float64
+								fmt.Scanln(&jumlahTopUp)
+
+								err := users.TopUp(int(loggedIn.ID), jumlahTopUp, database)
+								if err != nil {
+									fmt.Println("gagal melakukan TopUp:", err)
+								} else {
+									fmt.Println("TopUp berhasil dilakukan")
+								}
+							case 6:
+							case 7:
+							case 8:
+								history, err := users.HistoryTopUp(int(loggedIn.ID), database)
+								if err != nil {
+									fmt.Println("gagal melihat history TopUp ", err)
+								}
+								fmt.Println("TopUp History : ")
+								for _, entry := range history {
+									fmt.Printf("ID: %d, Balance: %2.f\n", entry.ID, entry.Balance)
+								}
+							case 9:
 								// Cari users berdasarkan id
 								var cari string
 								fmt.Print("Masukan no Hp Users : ")
@@ -201,6 +228,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println("Exited! Thank you")
+	fmt.Println("Terimakasih  telah bertransaksi !!!")
 
 }

@@ -1,6 +1,8 @@
 package users
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -10,6 +12,7 @@ type Tbl_user struct {
 	Nama     string
 	Password string
 	Alamat   string
+	Balance  float64
 }
 
 func (u *Tbl_user) GantiPassword(connection *gorm.DB, newPassword string) (bool, error) {
@@ -71,4 +74,21 @@ func EditUsers(connection *gorm.DB, id uint, UpdateData map[string]interface{}) 
 		return false, err
 	}
 	return true, nil
+}
+func TopUp(ID int, balance float64, database *gorm.DB) error {
+	// Lakukan proses top up
+	var user Tbl_user // Gantilah User dengan struktur data pengguna Anda
+	if err := database.Model(&user).Where("id = ?", ID).Update("balance", gorm.Expr("balance + ?", balance)).Error; err != nil {
+		return fmt.Errorf("gagal melakukan top up: %v", err)
+	}
+
+	fmt.Printf("Top up berhasil dilakukan. \nSaldo akun telah ditambahkan sebesar %.2f.\n", balance)
+	return nil
+}
+func HistoryTopUp(ID int, db *gorm.DB) ([]Tbl_user, error) {
+	var history []Tbl_user
+	if err := db.Where("ID = ? ", ID).Find(&history).Error; err != nil {
+		return nil, err
+	}
+	return history, nil
 }
