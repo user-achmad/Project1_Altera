@@ -131,4 +131,12 @@ func Transfer(senderID int, receiverHP string, amount float64, connection *gorm.
 
     return nil
 }
+func HistoryTransfer(userID int, connection *gorm.DB) ([]TransferHistory, error) {
+    var history []TransferHistory
+    if err := connection.Where("sender_id = ? OR receiver_id = ?", userID, userID).Find(&history).Error; err != nil {
+        return nil, err
+    }
+    return history, nil
+}
+
 
