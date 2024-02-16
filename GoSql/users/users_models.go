@@ -92,3 +92,12 @@ func HistoryTopUp(ID int, db *gorm.DB) ([]Tbl_user, error) {
 	}
 	return history, nil
 }
+func DeleteAccount(connection *gorm.DB, hp string) (bool, error) {
+	query := connection.Where("hp = ?", hp).Delete(&Tbl_users{})
+	if err := query.Error; err != nil {
+		return false, err
+	}
+
+	return query.RowsAffected > 0, nil
+}
+
