@@ -117,6 +117,19 @@ func main() {
 									fmt.Println("Tidak ada perubahan pada user")
 								}
 							case 4:
+							    	var hpToDelete string
+							    		fmt.Print("Masukkan nomor HP pengguna yang ingin dihapus: ")
+							    		fmt.Scanln(&hpToDelete)
+							
+							    	success, err := users.HapusUsers(database, hpToDelete)
+							    	if err != nil {
+							        	fmt.Println("Gagal menghapus pengguna:", err)
+							    	} else if success {
+							        	fmt.Println("Pengguna berhasil dihapus.")
+							   	 } else {
+							        fmt.Println("Pengguna tidak ditemukan.")
+							    }
+
 							case 5:
 								fmt.Print("Masukan jumlah TopUp : ")
 								var jumlahTopUp float64
