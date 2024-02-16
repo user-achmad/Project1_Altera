@@ -100,3 +100,35 @@ func HapusUsers(connection *gorm.DB, hp string) (bool, error) {
 
     return query.RowsAffected > 0, nil
 }
+// Transfer digunakan untuk mentransfer uang dari pengguna ke pengguna lain
+func Transfer(senderID int, receiverHP string, amount float64, connection *gorm.DB) error {
+    // Dapatkan pengguna pengirim
+    sender, err := GetUserByID(connection, senderID)
+    if err != nil {
+        return err
+    }
+
+    
+    receiver, err := GetUserByHP(connection, receiverHP)
+    if err != nil {
+        return err
+    }
+
+    if sender.Balance < amount {
+        return errors.New("saldo tidak mencukupi")
+    }
+
+    sender.Balance -= amount
+
+    receiver.Balance += amount
+
+    if err := connection.Save(&sender).Error; err != nil {
+        return err
+    }
+    if err := connection.Save(&receiver).Error; err != nil {
+        return err
+    }
+
+    return nil
+}
+
