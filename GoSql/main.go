@@ -159,6 +159,16 @@ func main() {
 								    }
 
 							case 7:
+								 history, err := users.HistoryTransfer(int(loggedIn.ID), database)
+								 if err != nil {
+								        fmt.Println("Gagal melihat history transfer:", err)
+								 } else {
+								        fmt.Println("History Transfer:")
+									for _, entry := range history {
+								        fmt.Printf("ID: %d, Jumlah: %.2f, Waktu: %s\n", entry.ID, entry.Amount, entry.Timestamp)
+								        }
+								    }
+
 							case 8:
 								history, err := users.HistoryTopUp(int(loggedIn.ID), database)
 								if err != nil {
