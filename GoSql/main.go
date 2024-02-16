@@ -142,6 +142,22 @@ func main() {
 									fmt.Println("TopUp berhasil dilakukan")
 								}
 							case 6:
+								
+								 var receiverHP string
+								    	fmt.Print("Masukkan nomor HP penerima: ")
+								    	fmt.Scanln(&receiverHP)
+								
+								 var amount float64
+								    		fmt.Print("Masukkan jumlah uang yang ingin ditransfer: ")
+								    		fmt.Scanln(&amount)
+								
+								    err := users.Transfer(int(loggedIn.ID), receiverHP, amount, database)
+								 if err != nil {
+								        fmt.Println("Gagal melakukan transfer:", err)
+								} else {
+								        fmt.Println("Transfer berhasil dilakukan.")
+								    }
+
 							case 7:
 							case 8:
 								history, err := users.HistoryTopUp(int(loggedIn.ID), database)
